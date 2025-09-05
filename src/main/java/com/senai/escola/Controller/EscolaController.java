@@ -1,60 +1,58 @@
 package com.senai.escola.Controller;
 
-import com.senai.escola.Models.Aluno;
-import com.senai.escola.Models.Professor;
-import com.senai.escola.Service.AlunoService;
+import com.senai.escola.Models.Escola;
+import com.senai.escola.Service.EscolaService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/alunos")
-public class AlunoController {
-    private final AlunoService alunoService;
+@RequestMapping("/escola")
+public class EscolaController {
+    private final EscolaService escolaService;
 
-    public AlunoController(AlunoService alunoService) {
-        this.alunoService = alunoService;
+    public EscolaController(EscolaService escolaService) {
+        this.escolaService = escolaService;
     }
 
     @GetMapping
-    public List<Aluno> buscarAlunos(){
-        return alunoService.buscarTodosAlunos();
+    public List<Escola> buscarEscolas(){
+        return escolaService.buscarEscolas();
     }
 
     @PostMapping
-    public Aluno salvar(@RequestBody Aluno aluno){
-        return alunoService.salvarNovoAluno(aluno);
+    public Escola salvar(@RequestBody Escola escola){
+        return escolaService.salvarNovoEscola(escola);
     }
 
 
     @DeleteMapping("/{id}")
     public void excluirAluno(@PathVariable Long id){
-        alunoService.deletarAluno(id);
+        escolaService.deletarEscola(id);
     }
 
 
     @GetMapping("/{id}")
-    public Aluno buscaAlunoPorId(@PathVariable Long id){
-        return alunoService.buscarAlunoId(id);
+    public Escola buscaAlunoPorId(@PathVariable Long id){
+        return escolaService.buscarEscolaId(id);
     }
-
-
 
     @PutMapping("/{id}")
-    public Aluno atualizarProfessores(@PathVariable Long id, @RequestBody Aluno novoAluno){
+    public Escola atualizarEscola(@PathVariable Long id, @RequestBody Escola novaEscola){
 
-        Aluno verificaAluno = alunoService.buscarAlunoId(id);
-        if (verificaAluno == null) return null;
+        Escola verificaEscola = escolaService.buscarEscolaId(id);
+        if (verificaEscola == null) return null;
 
-        verificaAluno.setNome(novoAluno.getNome());
-        verificaAluno.setEmail(novoAluno.getEmail());
-        verificaAluno.setTelefone(novoAluno.getTelefone());
+        verificaEscola.setNome(novaEscola.getNome());
+        verificaEscola.setEmail(novaEscola.getEmail());
+        verificaEscola.setTelefone(novaEscola.getTelefone());
+        //verificaEscola.setCnpj(novaEscola.getCnpj());
+        verificaEscola.setComponentes(novaEscola.getComponentes());
+        verificaEscola.setTurmas(novaEscola.getTurmas());
+        verificaEscola.setStatusAluno(novaEscola.getStatusAluno());
 
-        return alunoService.salvarNovoAluno(verificaAluno);
+        return escolaService.salvarNovoEscola(verificaEscola);
     }
-
-
-
 
 }
